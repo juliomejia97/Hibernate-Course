@@ -1,6 +1,7 @@
 # Hibernate Course
 
-Class: Self Study \n
+Class: Self Study
+
 Course URL: https://learning.oreilly.com/videos/hibernate-and-java/9781771373494/9781771373494-video209947/
 
 ## Intructions to run MYSQL Database
