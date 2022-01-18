@@ -1,10 +1,14 @@
 # Hibernate Course
 
-Class: Self Study
-Created: December 7, 2021 1:24 PM
-Reviewed: No
-Type: Study Group
-URL: https://learning.oreilly.com/videos/hibernate-and-java/9781771373494/9781771373494-video209947/
+Class: Self Study \n
+Course URL: https://learning.oreilly.com/videos/hibernate-and-java/9781771373494/9781771373494-video209947/
+
+## Intructions to run MYSQL Database
+To start the MYSQL Database use:
+
+```bash
+docker-compose up -d
+```
 
 ## Hibernate and Object Relational Mapping
 
