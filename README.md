@@ -1,8 +1,6 @@
 # Hibernate Course
 
 Class: Self Study
-Created: December 7, 2021 1:24 PM
-Reviewed: No
 Type: Study Group
 URL: https://learning.oreilly.com/videos/hibernate-and-java/9781771373494/9781771373494-video209947/
 
@@ -38,11 +36,11 @@ URL: https://learning.oreilly.com/videos/hibernate-and-java/9781771373494/978177
 - Collectives set of multiple data sets organized by tables, records and columns
 - Records in one table relate to one or many records in another table to form functional dependencies established by keys
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled.png)
+![Untitled](Untitled.png)
 
 ### Data Model vs Object Model
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%201.png)
+![Untitled](Untitled%1.png)
 
 ---
 
@@ -256,7 +254,7 @@ public class Address {
 
 Database visualization
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%202.png)
+![Untitled](Untitled%2.png)
 
 ---
 
@@ -283,7 +281,7 @@ private Map<String,String> contacts = new HashMap<>();
 
 Database Visualization
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%203.png)
+![Untitled](Untitled%3.png)
 
 ---
 
@@ -299,7 +297,7 @@ private List<Address> address = new ArrayList<>();
 
 Database Visualization
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%204.png)
+![Untitled](Untitled%4.png)
 
 ---
 
@@ -337,7 +335,7 @@ private Credential credential;
 
 Database Visualization
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%205.png)
+![Untitled](Untitled%5.png)
 
 ---
 
@@ -364,7 +362,7 @@ private Account account;
 
 Database Visualization
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%206.png)
+![Untitled](Untitled%6.png)
 
 ---
 
@@ -386,11 +384,11 @@ Database Visualization
 
 **Transaction**
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%207.png)
+![Untitled](Untitled%7.png)
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%208.png)
+![Untitled](Untitled%8.png)
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%209.png)
+![Untitled](Untitled%9.png)
 
 ---
 
@@ -419,11 +417,11 @@ Database Visualization
 
 **User**
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2010.png)
+![Untitled](Untitled%10.png)
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2011.png)
+![Untitled](Untitled%11.png)
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2012.png)
+![Untitled](Untitled%12.png)
 
 ---
 
@@ -438,9 +436,9 @@ State → Verb or a noun. On each state we hace object.
 
 Transition → Actions to go to another state.
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2013.png)
+![Untitled](Untitled%13.png)
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2014.png)
+![Untitled](Untitled%14.png)
 
 **Entity States**
 
@@ -856,7 +854,7 @@ factory.close();
 
 For example: Currency table
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2015.png)
+![Untitled](Untitled%15.png)
 
 ```java
 @Entity
@@ -938,9 +936,9 @@ For example the relationship between Currency and Market:
 
 Tables:
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2016.png)
+![Untitled](Untitled%16.png)
 
-![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2017.png)
+![Untitled](Untitled%17.png)
 
 ```java
 @Entity
