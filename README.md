@@ -36,11 +36,11 @@ URL: https://learning.oreilly.com/videos/hibernate-and-java/9781771373494/978177
 - Collectives set of multiple data sets organized by tables, records and columns
 - Records in one table relate to one or many records in another table to form functional dependencies established by keys
 
-![Untitled](Untitled.png)
+![Untitled](images/Untitled.png)
 
 ### Data Model vs Object Model
 
-![Untitled](Untitled%1.png)
+![Untitled](images/Untitled 1.png)
 
 ---
 
@@ -254,7 +254,7 @@ public class Address {
 
 Database visualization
 
-![Untitled](Untitled%2.png)
+![Untitled](images/Untitled2.png)
 
 ---
 
@@ -281,7 +281,7 @@ private Map<String,String> contacts = new HashMap<>();
 
 Database Visualization
 
-![Untitled](Untitled%3.png)
+![Untitled](images/Untitled3.png)
 
 ---
 
@@ -297,7 +297,7 @@ private List<Address> address = new ArrayList<>();
 
 Database Visualization
 
-![Untitled](Untitled%4.png)
+![Untitled](images/Untitled 4.png)
 
 ---
 
@@ -335,7 +335,7 @@ private Credential credential;
 
 Database Visualization
 
-![Untitled](Untitled%5.png)
+![Untitled](images/Untitled5.png)
 
 ---
 
@@ -362,7 +362,7 @@ private Account account;
 
 Database Visualization
 
-![Untitled](Untitled%6.png)
+![Untitled](images/Untitled 6.png)
 
 ---
 
@@ -384,11 +384,11 @@ Database Visualization
 
 **Transaction**
 
-![Untitled](Untitled%7.png)
+![Untitled](images/Untitled 7.png)
 
-![Untitled](Untitled%8.png)
+![Untitled](images/Untitled 8.png)
 
-![Untitled](Untitled%9.png)
+![Untitled](images/Untitled 9.png)
 
 ---
 
@@ -413,15 +413,15 @@ Database Visualization
 
 **Account**
 
+![Untitled](images/Untitled 10.png)
+
 **User X Account**
+
+![Untitled](images/Untitled 11.png)
 
 **User**
 
-![Untitled](Untitled%10.png)
-
-![Untitled](Untitled%11.png)
-
-![Untitled](Untitled%12.png)
+![Untitled](images/Untitled 12.png)
 
 ---
 
@@ -436,9 +436,9 @@ State → Verb or a noun. On each state we hace object.
 
 Transition → Actions to go to another state.
 
-![Untitled](Untitled%13.png)
+![Untitled](images/Untitled 13.png)
 
-![Untitled](Untitled%14.png)
+![Untitled](images/Untitled 14.png)
 
 **Entity States**
 
@@ -854,7 +854,7 @@ factory.close();
 
 For example: Currency table
 
-![Untitled](Untitled%15.png)
+![Untitled](images/Untitled 15.png)
 
 ```java
 @Entity
@@ -936,9 +936,9 @@ For example the relationship between Currency and Market:
 
 Tables:
 
-![Untitled](Untitled%16.png)
+![Untitled](images/Untitled 16.png)
 
-![Untitled](Untitled%17.png)
+![Untitled](images/Untitled 17.png)
 
 ```java
 @Entity
