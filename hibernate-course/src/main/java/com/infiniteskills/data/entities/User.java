@@ -156,4 +156,15 @@ public class User {
     public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", valid=" + valid +
+                ", age=" + age +
+                '}';
+    }
 }

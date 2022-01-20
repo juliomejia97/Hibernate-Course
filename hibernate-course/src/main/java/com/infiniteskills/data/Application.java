@@ -1,35 +1,58 @@
 package com.infiniteskills.data;
 
+import com.infiniteskills.data.dao.UserHibernateDao;
+import com.infiniteskills.data.dao.interfaces.UserDao;
 import com.infiniteskills.data.entities.*;
-import com.infiniteskills.data.utils.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Application {
     public static void main(String[] args) {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("infinite-finances");
-        EntityManager em = factory.createEntityManager(); // Is like the Session (Hibernate)
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        org.hibernate.Transaction tx = null;
+        try {
+            sessionFactory = HibernateUtil.getSessionFactory();
+            session = sessionFactory.openSession();
+            tx =session.beginTransaction();
 
-        Bank bank = em.find(Bank.class,1L);
-        em.detach(bank); // Detach only a spec entity || em.clear(); //All entities in the context will be detached
-        System.out.println(em.contains(bank));
-        bank.setName("Something else");
+            Bank bank = createBank();
+            session.save(bank);
 
-        Bank bank2 = em.merge(bank);
-        bank.setName("Something else 2"); //Entity Detached
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
 
-        transaction.commit();
-        em.close();
-        factory.close();
+    private static Bond createBond() {
+        Bond bond = new Bond();
+        bond.setInterestRate(new BigDecimal("123.22"));
+        bond.setIssuer("JP Morgan Chase");
+        bond.setMaturityDate(new Date());
+        bond.setPurchaseDate(new Date());
+        bond.setName("Long Term Bond Purchases");
+        bond.setValue(new BigDecimal("10.22"));
+        return bond;
+    }
+
+    private static Stock createStock(){
+        Stock stock = new Stock();
+        stock.setIssuer("Allen Edmonds");
+        stock.setName("Private American Stock Purchases");
+        stock.setPurchaseDate(new Date());
+        stock.setQuantity(new BigDecimal(1922));
+        stock.setSharePrice(new BigDecimal("100.00"));
+        return stock;
     }
 
     private static Date getMyBirthday() {
@@ -133,7 +156,7 @@ public class Application {
     private static void randomMethod() throws Exception {
         if (Math.random() < 0.3) {
             System.out.println("There is any problem");
-        }else{
+        } else {
             System.out.println("There is a problem");
             throw new Exception("Rolling back");
         }

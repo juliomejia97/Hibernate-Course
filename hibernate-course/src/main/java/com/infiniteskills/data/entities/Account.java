@@ -20,6 +20,14 @@ public class Account {
             inverseJoinColumns =  @JoinColumn(name = "USER_ID"))
     private Set<User> users = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "BANK_ID")
+    private Bank bank;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ACCOUNT_TYPE")
+    private AccountType accountType;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     List<Transaction> transactions = new ArrayList<>();
     @Column(name = "NAME")
@@ -143,6 +151,35 @@ public class Account {
 
     public void setUsers(Set<User> user) {
         this.users = user;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountId=" + accountId +
+                ", accountType=" + accountType +
+                ", name='" + name + '\'' +
+                ", lastUpdatedDate=" + lastUpdatedDate +
+                ", lastUpdatedBy='" + lastUpdatedBy + '\'' +
+                ", createdDate=" + createdDate +
+                ", createdBy='" + createdBy + '\'' +
+                '}';
     }
 }
 
