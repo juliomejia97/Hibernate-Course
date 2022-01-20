@@ -38,11 +38,11 @@ URL: https://learning.oreilly.com/videos/hibernate-and-java/9781771373494/978177
 - Collectives set of multiple data sets organized by tables, records and columns
 - Records in one table relate to one or many records in another table to form functional dependencies established by keys
 
-![Untitled](images/Untitled.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled.png)
 
 ### Data Model vs Object Model
 
-![Untitled](images/Untitled%201.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%201.png)
 
 ---
 
@@ -113,7 +113,7 @@ public class User {
 
 ### Column Annotation
 
-Decide when Hibernate insert a row when insert or u
+Decide when Hibernate insert a row when:
 
 - Insertable:
 - Updatable: When I update, I do not update a field.
@@ -256,7 +256,7 @@ public class Address {
 
 Database visualization
 
-![Untitled](images/Untitled%202.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%202.png)
 
 ---
 
@@ -283,7 +283,7 @@ private Map<String,String> contacts = new HashMap<>();
 
 Database Visualization
 
-![Untitled](images/Untitled%203.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%203.png)
 
 ---
 
@@ -299,7 +299,7 @@ private List<Address> address = new ArrayList<>();
 
 Database Visualization
 
-![Untitled](images/Untitled%204.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%204.png)
 
 ---
 
@@ -337,7 +337,7 @@ private Credential credential;
 
 Database Visualization
 
-![Untitled](images/Untitled%205.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%205.png)
 
 ---
 
@@ -364,7 +364,7 @@ private Account account;
 
 Database Visualization
 
-![Untitled](images/Untitled%206.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%206.png)
 
 ---
 
@@ -386,11 +386,11 @@ Database Visualization
 
 **Transaction**
 
-![Untitled](images/Untitled%207.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%207.png)
 
-![Untitled](images/Untitled%208.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%208.png)
 
-![Untitled](images/Untitled%209.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%209.png)
 
 ---
 
@@ -419,11 +419,11 @@ Database Visualization
 
 **User**
 
-![Untitled](images/Untitled%2010.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2010.png)
 
-![Untitled](images/Untitled%2011.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2011.png)
 
-![Untitled](images/Untitled%2012.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2012.png)
 
 ---
 
@@ -438,9 +438,9 @@ State → Verb or a noun. On each state we hace object.
 
 Transition → Actions to go to another state.
 
-![Untitled](images/Untitled%2013.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2013.png)
 
-![Untitled](images/Untitled%2014.png)
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2014.png)
 
 **Entity States**
 
@@ -849,3 +849,367 @@ transaction.commit();
 em.close();
 factory.close();
 ```
+
+## Advanced Mapping and Configurations
+
+### Compound Primary Keys
+
+For example: Currency table
+
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2015.png)
+
+```java
+@Entity
+@Table(name = "currency")
+@IdClass(CurrencyId.class)
+public class Currency {
+
+    @Id
+    @Column(name = "NAME")
+    private String name;
+
+    @Id
+    @Column(name = "COUNTRY_NAME")
+    private String countryName;
+
+    @Column(name = "SYMBOL")
+    private String symbol;
+
+}
+```
+
+```java
+public class CurrencyId implements Serializable {
+    //The fields must match with the column name in the table
+    private String name;
+    private String countryName;
+
+    public CurrencyId() {
+    }
+
+    public CurrencyId(String name, String countryName) {
+        this.name = name;
+        this.countryName = countryName;
+    }
+}
+```
+
+Testing code:
+
+```java
+public class Application {
+    public static void main(String[] args) {
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Session session2 = null;
+        org.hibernate.Transaction tx = null;
+        org.hibernate.Transaction tx2 = null;
+        try {
+            sessionFactory = HibernateUtil.getSessionFactory();
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+            Currency currency = new Currency();
+            currency.setCountryName("Spain");
+            currency.setName("Euro");
+            currency.setSymbol("€");
+            session.persist(currency);
+            tx.commit();
+
+            session2 = sessionFactory.openSession();
+            tx2 = session2.beginTransaction();
+            Currency dbCurrency = (Currency) session2.get(Currency.class, new CurrencyId("Dollar", "United States"));
+            System.out.println(dbCurrency.toString());
+            tx2.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+            tx2.rollback();
+        } finally {
+            session.close();
+            session2.close();
+            sessionFactory.close();
+        }
+    }
+```
+
+### Compound Join Columns
+
+For example the relationship between Currency and Market:
+
+Tables:
+
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2016.png)
+
+![Untitled](Hibernate%20Course%2069440a3ff54349b9af22fe6c44e56e25/Untitled%2017.png)
+
+```java
+@Entity
+@Table(name = "market")
+public class Market {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "MARKET_ID",nullable = false)
+    private Long marketId;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumns({
+            @JoinColumn(name = "CURRENCY_NAME",referencedColumnName = "NAME"),
+            @JoinColumn(name = "COUNTRY_NAME",referencedColumnName = "COUNTRY_NAME")
+    })
+    private Currency currency;
+
+    @Column(name = "MARKET_NAME",nullable = true)
+    private String marketName;
+}
+```
+
+### Enumerations
+
+Normaly Hibernate uses to persists the Entity with Enum the ordinal value. The problem is that if we change constantly the enumeration does not correspond this happen when we do not provide de `@Enumerated(EnumType.*STRING*)` annotation.
+
+For example:
+
+```java
+public enum AccountType {
+    SAVINGS,
+    CHECKING
+}
+```
+
+```java
+@Entity
+@Table(name = "account")
+public class Account {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ACCOUNT_ID")
+    private Long accountId;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_account",
+            joinColumns = @JoinColumn(name = "ACCOUNT_ID"),
+            inverseJoinColumns =  @JoinColumn(name = "USER_ID"))
+    private Set<User> users = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "BANK_ID")
+    private Bank bank;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ACCOUNT_TYPE")
+    private AccountType accountType;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    List<Transaction> transactions = new ArrayList<>();
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "INITIAL_BALANCE")
+    private BigDecimal initialBalance;
+
+    @Column(name = "CURRENT_BALANCE")
+    private BigDecimal currentBalance;
+
+    @Column(name = "OPEN_DATE")
+    private Date openDate;
+
+    @Column(name = "CLOSE_DATE")
+    private Date closeDate;
+
+    @Column(name = "LAST_UPDATED_DATE")
+    private Date lastUpdatedDate;
+
+    @Column(name = "LAST_UPDATED_BY")
+    private String lastUpdatedBy;
+
+    @Column(name = "CREATED_DATE")
+    private Date createdDate;
+
+    @Column(name = "CREATED_BY")
+    private String createdBy;
+}
+```
+
+### Mapped Superclass Inheritance
+
+There are some limitations:
+
+- Is good to use the annotation to share some state with entities
+- Can not create an instance of an abstract class, yo can not create an entity of a Mapped Superclass. For example you can not have a list of Investment classes
+
+For example: They share the field of Investment class
+
+**Investment**
+
+**Stock**
+
+**Bond**
+
+```java
+@MappedSuperclass
+public abstract class Investment {
+    @Column(name = "NAME", nullable = false, length = 100)
+    private String name;
+
+    @Column(name = "ISSUER", nullable = false, length = 45)
+    private String issuer;
+
+    @Column(name = "PURCHASE_DATE", nullable = false)
+    private Date purchaseDate;
+}
+```
+
+```java
+@Entity
+@Table(name = "stock")
+public class Stock extends Investment{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "STOCK_ID", nullable = false)
+    private Long id;
+
+    @Column(name = "SHARE_PRICE", nullable = false, precision = 10, scale = 2)
+    private BigDecimal sharePrice;
+
+    @Column(name = "QUANTITY", nullable = false)
+    private BigDecimal quantity;
+}
+```
+
+```java
+@Entity
+@Table(name = "bond")
+public class Bond extends Investment{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "BOND_ID")
+    private Long bondId;
+
+    @Column(name = "VALUE")
+    private BigDecimal value;
+
+    @Column(name = "INTEREST_RATE")
+    private BigDecimal interestRate;
+
+    @Temporal(value = TemporalType.DATE)
+    @Column(name = "MATURITY_DATE")
+    private Date maturityDate;
+}
+```
+
+### Table Per Class Inheritance
+
+This is a strategy to map a class.  There is a problem that Hibernate performs an union with ManyToOne or ManyToMany relationships, if there where a $10^3$ records it is going to be expensive.
+
+For example for the TableGenerator, the strategy stores the PK sequence per family.
+
+**Investment**
+
+**Stock**
+
+**Bond**
+
+**Portfolio**
+
+```java
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Investment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, 
+			generator = "key_generator")
+    @TableGenerator(table = "ifinances_keys", 
+			pkColumnName = "PK_NAME", 
+			valueColumnName = "PK_VALUE", 
+			name = "key_generator")
+    @Column(name = "INVESTMENT_ID")
+    private Long investmentId;
+
+    @JoinColumn( name = "PORTFOLIO_ID")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Portfolio portfolio;
+
+    @Column(name = "NAME", nullable = false, length = 100)
+    private String name;
+
+    @Column(name = "ISSUER", nullable = false, length = 45)
+    private String issuer;
+
+    @Column(name = "PURCHASE_DATE", nullable = false)
+    private Date purchaseDate;
+}
+```
+
+```java
+@Entity
+@Table(name = "stock")
+public class Stock extends Investment{
+
+    @Column(name = "SHARE_PRICE")
+    private BigDecimal sharePrice;
+
+    @Column(name = "QUANTITY")
+    private BigDecimal quantity;
+
+    public BigDecimal getQuantity() {
+        return quantity;
+    }
+}
+```
+
+```java
+@Entity
+@Table(name = "bond")
+public class Bond extends Investment{
+
+    @Column(name = "VALUE")
+    private BigDecimal value;
+
+    @Column(name = "INTEREST_RATE")
+    private BigDecimal interestRate;
+
+    @Temporal(value = TemporalType.DATE)
+    @Column(name = "MATURITY_DATE")
+    private Date maturityDate;
+}
+```
+
+```java
+@Entity
+@Table(name = "portfolio")
+public class Portfolio {
+    @Id
+    @GeneratedValue
+    @Column(name = "PORTFOLIO_ID")
+    private Long portfolioId;
+
+    @Column(name = "NAME")
+    private String Name;
+
+    @OneToMany(mappedBy = "portfolio")
+    private List<Investment> investments = new ArrayList<>();
+}
+```
+
+### Single Table Inheritance
+
+Is the most used strategy to perform the inheritance and one of the most “optimal”.
+
+The strategy consist of taking every field in our entity and associate it with a column upon a single table.
+
+Some fields maybe null.
+
+### Schema Generation
+
+You have to add to your Hibernate Configuration File the following property:
+
+`<property name="hibernate.hbm2ddl.auto"></property>`
+
+There are different strategies:
+
+- create-drop: Creates the schema and when the program finish drop de schema (NOT GOOD FOR PRODUCTION)
+- create: Create the schema if does not exists
+- update: Update the schema in case of changes
+- validate: Validate the schema, if there is any problem report it.
