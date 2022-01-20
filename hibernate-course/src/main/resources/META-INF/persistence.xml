@@ -4,7 +4,6 @@
 
     <persistence-unit name="infinite-finances">
         <class>com.infiniteskills.data.entities.Stock</class>
-        <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <properties>
             <property name="javax.persistence.jdbc.user" value="infinite"/>
             <property name="javax.persistence.jdbc.password" value="password"/>
