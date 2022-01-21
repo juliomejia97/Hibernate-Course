@@ -7,6 +7,16 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "account")
+@NamedQueries({
+        @NamedQuery(name = "Account.largeDeposits",
+                query = "SELECT distinct t.account " +
+                        "FROM Transaction t " +
+                        "WHERE t.amount > 500 and lower(t.transactionType) = 'deposit'"),
+        @NamedQuery(name = "Account.byWithdrawlAmount",query = "SELECT DISTINCT t.account.name, " +
+                "concat(concat(t.account.bank.name,' '), t.account.bank.address.state) " +
+                "FROM Transaction t " +
+                "WHERE t.amount > :amount AND t.transactionType = 'withdrawl'")
+})
 public class Account {
 
     @Id
@@ -20,7 +30,7 @@ public class Account {
             inverseJoinColumns =  @JoinColumn(name = "USER_ID"))
     private Set<User> users = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BANK_ID")
     private Bank bank;
 
