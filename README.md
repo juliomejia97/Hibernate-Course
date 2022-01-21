@@ -1,7 +1,6 @@
 # Hibernate Course
 
 Class: Self Study
-Type: Study Group
 URL: https://learning.oreilly.com/videos/hibernate-and-java/9781771373494/9781771373494-video209947/
 
 ## Hibernate and Object Relational Mapping
@@ -36,11 +35,11 @@ URL: https://learning.oreilly.com/videos/hibernate-and-java/9781771373494/978177
 - Collectives set of multiple data sets organized by tables, records and columns
 - Records in one table relate to one or many records in another table to form functional dependencies established by keys
 
-![Untitled](images/Untitled.png)
+<img src="images/Untitled.png" alt="Untitled" style="zoom: 33%;" />
 
 ### Data Model vs Object Model
 
-![Untitled](images/Untitled 1.png)
+<img src="images/Untitled%201.png" alt="Untitled" style="zoom: 50%;" />
 
 ---
 
@@ -252,9 +251,9 @@ public class Address {
 }
 ```
 
-Database visualization
+**Database visualization**
 
-![Untitled](images/Untitled2.png)
+<img src="images/Untitled%202.png" alt="Untitled" style="zoom:80%;" />
 
 ---
 
@@ -279,9 +278,9 @@ private Collection<String> contacts = new ArrayList<>();
 private Map<String,String> contacts = new HashMap<>();
 ```
 
-Database Visualization
+**Database Visualization**
 
-![Untitled](images/Untitled3.png)
+![Untitled](images/Untitled%203.png)
 
 ---
 
@@ -295,9 +294,9 @@ Database Visualization
 private List<Address> address = new ArrayList<>();
 ```
 
-Database Visualization
+**Database Visualization**
 
-![Untitled](images/Untitled 4.png)
+<img src="images/Untitled%204.png" alt="Untitled" style="zoom: 80%;" />
 
 ---
 
@@ -335,7 +334,7 @@ private Credential credential;
 
 Database Visualization
 
-![Untitled](images/Untitled5.png)
+![Untitled](images/Untitled%205.png)
 
 ---
 
@@ -362,7 +361,7 @@ private Account account;
 
 Database Visualization
 
-![Untitled](images/Untitled 6.png)
+<img src="images/Untitled%206.png" alt="Untitled" style="zoom:80%;" />
 
 ---
 
@@ -380,15 +379,15 @@ Database Visualization
 
 **Budget**
 
+<img src="images/Untitled%207.png" alt="Untitled" style="zoom:80%;" />
+
 **Budget X Transaction**
+
+<img src="images/Untitled%208.png" alt="Untitled" style="zoom:80%;" />
 
 **Transaction**
 
-![Untitled](images/Untitled 7.png)
-
-![Untitled](images/Untitled 8.png)
-
-![Untitled](images/Untitled 9.png)
+<img src="images/Untitled%209.png" alt="Untitled" style="zoom:80%;" />
 
 ---
 
@@ -409,19 +408,19 @@ private Set<User> users = new HashSet<>();
 private Set<Account> accounts = new HashSet<>();
 ```
 
-Database Visualization
+**Database Visualization**
 
 **Account**
 
-![Untitled](images/Untitled 10.png)
+<img src="images/Untitled%2010.png" alt="Untitled" style="zoom:80%;" />
 
 **User X Account**
 
-![Untitled](images/Untitled 11.png)
+<img src="images/Untitled%2011.png" alt="Untitled" style="zoom:80%;" />
 
 **User**
 
-![Untitled](images/Untitled 12.png)
+<img src="images/Untitled%2012.png" alt="Untitled" style="zoom: 80%;" />
 
 ---
 
@@ -436,9 +435,9 @@ State → Verb or a noun. On each state we hace object.
 
 Transition → Actions to go to another state.
 
-![Untitled](images/Untitled 13.png)
+<img src="images/Untitled%2013.png" alt="Untitled" style="zoom:33%;" />
 
-![Untitled](images/Untitled 14.png)
+<img src="images/Untitled%2014.png" alt="Untitled" style="zoom:33%;" />
 
 **Entity States**
 
@@ -854,7 +853,7 @@ factory.close();
 
 For example: Currency table
 
-![Untitled](images/Untitled 15.png)
+<img src="images/Untitled%2015.png" alt="Untitled" style="zoom:80%;" />
 
 ```java
 @Entity
@@ -936,9 +935,9 @@ For example the relationship between Currency and Market:
 
 Tables:
 
-![Untitled](images/Untitled 16.png)
+<img src="images/Untitled%2016.png" alt="Untitled" style="zoom: 80%;" />
 
-![Untitled](images/Untitled 17.png)
+<img src="images/Untitled%2017.png" alt="Untitled" style="zoom:80%;" />
 
 ```java
 @Entity
@@ -1211,3 +1210,155 @@ There are different strategies:
 - create: Create the schema if does not exists
 - update: Update the schema in case of changes
 - validate: Validate the schema, if there is any problem report it.
+
+## Hibernate Query Language and JPA Query Language
+
+In HQL and JPQL  we can write queries and operators like in SQL. It is important to note that HQL supports JPQL but JPQL does not support HQL.
+
+Is not a good idea to concatenate Strings in a Query because there is a risk to SQL Injection.
+
+### Parameters
+
+**HQL**
+
+- Positional Paramenter (?).
+  
+    ```java
+    Query query = session.createQuery("SELECT t from Transaction t " +
+    		"WHERE t.amount > ? AND t.transactionType = 'Withdrawl' ");
+    System.out.println("Please specify an amount: ");
+    query.setParameter(0,new BigDecimal(scanner.next()));
+    ```
+    
+- Named parameters. (:nameOfParameter)
+  
+    ```java
+    Query query = session.createQuery("SELECT t from Transaction t " +
+    		"WHERE t.amount > :amount AND t.transactionType = 'Withdrawl' ");
+    System.out.println("Please specify an amount: ");
+    query.setParameter("amount",new BigDecimal(scanner.next()));
+    ```
+    
+
+**JQL**
+
+```java
+TypedQuery<Transaction> query = em.createQuery("from Transaction t " +
+                    "WHERE  (t.amount between ?1 and ?2)"+
+                    "AND t.title like '%s'"+
+                    "order by t.title",Transaction.class);
+System.out.println("Plese provide the first amount: ");
+query.setParameter(1,new BigDecimal(scanner.next()));
+System.out.println("Plese provide the second amount: ");
+query.setParameter(2,new BigDecimal(scanner.next()));
+```
+
+### Functions
+
+**HQL**
+
+```java
+Query query = session.createQuery("SELECT distinct t.account FROM Transaction t" +
+                    " WHERE t.amount > 500 and t.transactionType = 'Deposit'");
+List<Account> accounts = query.list();
+```
+
+**JPQL**
+
+```java
+TypedQuery<Account> query = em.createQuery("SELECT DISTINCT a FROM Transaction t" +
+                    " JOIN t.account a" +
+                    " WHERE t.amount > 500 AND t.transactionType = 'Deposit'",Account.class);
+List<Account> accounts = query.getResultList();
+```
+
+### NamedQueries
+
+**Entity**
+
+```java
+@Entity
+@Table(name = "account")
+@NamedQueries({
+        @NamedQuery(name = "Account.largeDeposits",
+                query = "SELECT distinct t.account " +
+                        "FROM Transaction t " +
+                        "WHERE t.amount > 500 and lower(t.transactionType) = 'deposit'"),
+        @NamedQuery(name = "Account.byWithdrawlAmount",query = "SELECT DISTINCT t.account.name, " +
+                "concat(concat(t.account.bank.name,' '), t.account.bank.address.state) " +
+                "FROM Transaction t " +
+                "WHERE t.amount > :amount AND t.transactionType = 'withdrawl'")
+})
+public class Account {}
+```
+
+**HQL**
+
+```java
+private static  void namedQueryExample(Session session){
+	Query query = session.getNamedQuery("Account.largeDeposits");
+	List<Account> accounts = query.list();
+
+		for (Account account:accounts) {
+			System.out.println(account);
+		}
+ }
+```
+
+**JPQL**
+
+```java
+private static void namedQueryExample(EntityManager em){
+	Query query = em.createNamedQuery("Account.byWithdrawlAmount");
+	query.setParameter("amount",new BigDecimal("99"));
+	List<Object[]> accounts = query.getResultList();
+	for (Object[] a:accounts) {
+			System.out.println(a[0]);
+			System.out.println(a[1]);
+	}
+}
+```
+
+### Lazy Loading
+
+Hibernate waits and excute query when it is accessed.
+
+**Entity**
+
+```java
+@Entity
+@Table(name = "account")
+@NamedQueries({
+        @NamedQuery(name = "Account.largeDeposits",
+                query = "SELECT distinct t.account " +
+                        "FROM Transaction t " +
+                        "WHERE t.amount > 500 and lower(t.transactionType) = 'deposit'"),
+        @NamedQuery(name = "Account.byWithdrawlAmount",query = "SELECT DISTINCT t.account.name, " +
+                "concat(concat(t.account.bank.name,' '), t.account.bank.address.state) " +
+                "FROM Transaction t " +
+                "WHERE t.amount > :amount AND t.transactionType = 'withdrawl'")
+})
+public class Account {
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BANK_ID")
+	private Bank bank;
+}
+```
+
+**HQL**
+
+```java
+private static void lazyLoadingExample(Session session){
+		Query query = session.getNamedQuery("Account.largeDeposits");
+		List<Account> accounts = query.list();
+
+		for (Account account:accounts) {
+			System.out.println(account);
+      System.out.println(account.getBank().getName());
+		}
+}
+```
+
+Execution
+
+![Untitled](images/Untitled%2018.png)
