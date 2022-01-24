@@ -15,7 +15,7 @@ public class Transaction {
     @Column(name = "TRANSACTION_ID")
     private Long transactionId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "ACCOUNT_ID")
     private Account account;
 
@@ -143,6 +143,19 @@ public class Transaction {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "transactionId=" + transactionId +
+                ", transactionType='" + transactionType + '\'' +
+                ", title='" + title + '\'' +
+                ", amount=" + amount +
+                ", notes='" + notes + '\'' +
+                ", createdDate=" + createdDate +
+                ", createdBy='" + createdBy + '\'' +
+                '}';
     }
 }
 
